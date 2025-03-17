@@ -1,0 +1,20 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:${SQLSERVER_VERSION}
+    container_name: ${SQLSERVER_HOST}
+    restart: always
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=${SQLSERVER_ROOT_PASSWORD}
+    ports:
+      - "${SQLSERVER_PORT_EXPOSE}:1433"
+    volumes:
+      - "./data/sqlserver/data:/var/opt/mssql"
+    networks:
+      - internal
+networks:
+  internal:
+    external: true
+
+volumes:
+  sqlserver_data:

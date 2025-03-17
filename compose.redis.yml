@@ -1,0 +1,17 @@
+services:
+  redis:
+    container_name: ${REDIS_HOST}
+    image: redis:${REDIS_VERSION}
+    restart: always
+    ports:
+      - "${REDIS_PORT_EXPOSE:-6379}:6379"
+    volumes:
+      - "./data/redis/redis.conf:/etc/redis/redis.conf"
+      - "./data/redis/data:/data"
+      - "./data/redis/logs:/logs"
+    command: ["redis-server", "/etc/redis/redis.conf"]
+    networks:
+      - internal
+networks:
+  internal:
+    external: true

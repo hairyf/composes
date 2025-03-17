@@ -1,0 +1,16 @@
+services:
+  cockroach:
+    image: cockroachdb/cockroach:${COCKROACH_VERSION}
+    container_name: ${COCKROACH_HOST}
+    restart: always
+    command: start-single-node --insecure
+    ports:
+      - "${COCKROACH_PORT_EXPOSE:-26257}:26257"
+      - "${COCKROACH_PORT_UI:-8080}:8080"
+    volumes:
+      - "./data/cockroach/data:/cockroach/cockroach-data"
+    networks:
+      - internal
+networks:
+  internal:
+    external: true

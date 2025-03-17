@@ -1,0 +1,22 @@
+services:
+  mongodb:
+    image: mongo:${MONGO_VERSION}
+    container_name: ${MONGO_HOST}
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+    ports:
+      - ${MONGO_PORT_EXPOSE:-27017}:27017
+    volumes:
+      - "./data/mongodb/conf:/etc/mongo"
+      - "./data/mongodb/data:/data/db"
+      - "./data/mongodb/logs:/var/log/mongodb"
+    networks:
+      - internal
+networks:
+  internal:
+    external: true

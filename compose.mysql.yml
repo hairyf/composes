@@ -1,0 +1,23 @@
+services:
+  mysql:
+    image: mysql:${MYSQL_VERSION}
+    container_name: ${MYSQL_HOST}
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - ${MYSQL_PORT_EXPOSE:-3306}:3306
+    volumes:
+      - "./data/mysql/conf.d:/etc/mysql/conf.d"
+      - "./data/mysql/data:/var/lib/mysql"
+      - "./data/mysql/logs:/logs"
+    networks:
+      - internal
+networks:
+  internal:
+    external: true
